@@ -55,6 +55,7 @@ export function assignRoles(input: {
   impostorCount: number;
   civilianWord: string;
   undercoverWord: string;
+  impostorHint?: string;
   category?: string;
   random?: (max: number) => number;
 }): RoleAssignmentPlan[] {
@@ -64,6 +65,7 @@ export function assignRoles(input: {
     impostorCount,
     civilianWord,
     undercoverWord,
+    impostorHint,
     category = "RANDOM",
     random = randomInt,
   } = input;
@@ -80,9 +82,9 @@ export function assignRoles(input: {
   
   // For undercover mode, use the undercover word
   // For classic impostor mode, generate a hint word related to the category
-  const specialWord = mode === "UNDERCOVER" 
-    ? undercoverWord 
-    : generateImpostorHint(civilianWord, category);
+  const specialWord = mode === "UNDERCOVER"
+    ? undercoverWord
+    : impostorHint?.trim() || generateImpostorHint(civilianWord, category);
 
   return shuffled.map((playerId, index) => {
     const isSpecial = index < impostorCount;

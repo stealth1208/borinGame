@@ -98,6 +98,7 @@ export type WordPair = {
   category: string;
   civilianWord: string;
   undercoverWord: string;
+  impostorHint?: string;
   difficulty: "easy" | "medium" | "hard";
   language: "vi";
   active: boolean;

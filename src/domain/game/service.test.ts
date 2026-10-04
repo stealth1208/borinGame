@@ -51,9 +51,10 @@ describe("assignRoles", () => {
       playerIds,
       mode: "CLASSIC_IMPOSTOR",
       impostorCount: 1,
-      civilianWord: "iPhone",
-      undercoverWord: "Samsung",
-      category: "Công nghệ",
+      civilianWord: "xe ôm",
+      undercoverWord: "phương tiện",
+      impostorHint: "phương tiện",
+      category: "Miền Nam",
       random: () => 0,
     });
     expect(plans).toHaveLength(5);
@@ -64,7 +65,8 @@ describe("assignRoles", () => {
     // Impostors now get a hint word related to the category, not null
     expect(impostor?.word).toBeTruthy();
     expect(typeof impostor?.word).toBe("string");
-    expect(plans.filter((plan) => plan.role === "CIVILIAN").every((plan) => plan.word === "iPhone")).toBe(
+    expect(impostor?.word).toBe("phương tiện");
+    expect(plans.filter((plan) => plan.role === "CIVILIAN").every((plan) => plan.word === "xe ôm")).toBe(
       true,
     );
   });
@@ -174,7 +176,7 @@ describe("game service", () => {
     await game.startRound(code, tokens[0]);
     const room = await game.getPublicRoom(code);
     expect(room.status).toBe("ROLE_REVEAL");
-    expect(JSON.stringify(room)).not.toContain("iPhone");
+    expect(JSON.stringify(room)).not.toContain("xe ôm");
     const secrets = await Promise.all(tokens.map((token) => game.getMe(code, token)));
     const impostors = secrets.filter((me) => me.assignment?.role === "IMPOSTOR");
     const civilians = secrets.filter((me) => me.assignment?.role === "CIVILIAN");

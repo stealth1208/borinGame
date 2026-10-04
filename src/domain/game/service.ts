@@ -197,7 +197,7 @@ async function selectWordPair(
   store: GameStore,
   room: Room,
   category: string,
-): Promise<{ id: string; civilianWord: string; undercoverWord: string }> {
+): Promise<{ id: string; category: string; civilianWord: string; undercoverWord: string; impostorHint?: string }> {
   const pairs = (await store.listWordPairs()).filter((pair) => pair.active);
   const pool =
     category === "RANDOM"
@@ -236,7 +236,8 @@ async function startNewRound(store: GameStore, room: Room): Promise<Room> {
     impostorCount: room.settings.impostorCount,
     civilianWord: wordPair.civilianWord,
     undercoverWord: wordPair.undercoverWord,
-    category: room.settings.category,
+    impostorHint: wordPair.impostorHint,
+    category: wordPair.category,
   });
   const speakingOrder = shuffleInPlace(players.map((player) => player.id));
   const roundNumber = room.currentRoundNumber + 1;
