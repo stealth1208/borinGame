@@ -66,8 +66,8 @@ export function SecretCard({ assignment }: { assignment: NonNullable<PrivateMeVi
         }
       : assignment.role === "IMPOSTOR"
         ? {
-            card: "bg-rose-600 text-white",
-            button: "bg-rose-950 text-rose-50 hover:bg-rose-900",
+            card: "bg-emerald-500 text-emerald-950",
+            button: "bg-emerald-950 text-emerald-50 hover:bg-emerald-900",
           }
         : {
             card: "bg-amber-300 text-zinc-950",
