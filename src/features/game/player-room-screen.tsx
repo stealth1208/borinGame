@@ -220,7 +220,14 @@ export function PlayerRoomScreen({ code }: { code: string }) {
           {room.result.revealedRoles
             .filter((row) => row.role === "IMPOSTOR" || row.role === "UNDERCOVER")
             .map((row) => (
-              <div key={row.playerId} className="rounded-3xl bg-amber-300 p-5 text-center text-zinc-950">
+              <div
+                key={row.playerId}
+                className={`rounded-3xl p-5 text-center ${
+                  row.role === "IMPOSTOR"
+                    ? "bg-rose-600 text-white"
+                    : "bg-amber-300 text-zinc-950"
+                }`}
+              >
                 <p className="text-sm font-bold tracking-[0.2em] uppercase">{row.role}</p>
                 <p className="text-4xl font-black">{row.nickname}</p>
               </div>

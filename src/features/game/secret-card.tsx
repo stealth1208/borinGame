@@ -58,8 +58,24 @@ export function SecretCard({ assignment }: { assignment: NonNullable<PrivateMeVi
     );
   }
 
+  const tone =
+    assignment.role === "CIVILIAN"
+      ? {
+          card: "bg-emerald-400 text-emerald-950",
+          button: "bg-emerald-950 text-emerald-50 hover:bg-emerald-900",
+        }
+      : assignment.role === "IMPOSTOR"
+        ? {
+            card: "bg-rose-600 text-white",
+            button: "bg-rose-950 text-rose-50 hover:bg-rose-900",
+          }
+        : {
+            card: "bg-amber-300 text-zinc-950",
+            button: "bg-zinc-950 text-amber-200 hover:bg-zinc-800",
+          };
+
   return (
-    <section className="rounded-3xl bg-amber-300 px-6 py-8 text-center text-zinc-950">
+    <section className={`rounded-3xl px-6 py-8 text-center ${tone.card}`}>
       <p className="text-sm font-semibold tracking-[0.2em] uppercase">Vai của bạn</p>
       <h2 className="mt-2 text-4xl font-black">{ROLE_COPY[assignment.role] ?? assignment.role}</h2>
       {assignment.word ? (
@@ -77,7 +93,7 @@ export function SecretCard({ assignment }: { assignment: NonNullable<PrivateMeVi
         </div>
       ) : null}
       <Button
-        className="mt-8 w-full bg-zinc-950 text-amber-200 hover:bg-zinc-800"
+        className={`mt-8 w-full ${tone.button}`}
         size="xl"
         onClick={() => setPhase("memorized")}
       >

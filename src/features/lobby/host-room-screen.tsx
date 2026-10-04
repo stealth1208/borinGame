@@ -20,6 +20,7 @@ function joinUrl(code: string): string {
 export function HostRoomScreen({ code }: { code: string }) {
   const { room, me, error, errorCode, loading, reconnecting, mutate } = useRoom(code);
   const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState(false);
   const url = useMemo(() => joinUrl(code), [code]);
   useWakeLock(Boolean(room && room.status === "LOBBY"));
 
@@ -95,9 +96,14 @@ export function HostRoomScreen({ code }: { code: string }) {
               className="flex-1"
               size="xl"
               variant="secondary"
-              onClick={() => void navigator.clipboard.writeText(url)}
+              onClick={() => {
+                void navigator.clipboard.writeText(url).then(() => {
+                  setCopied(true);
+                  window.setTimeout(() => setCopied(false), 1600);
+                });
+              }}
             >
-              Sao chép link
+              {copied ? "✓ Đã chép" : "Sao chép link"}
             </Button>
             <Button
               className="flex-1"
@@ -330,7 +336,13 @@ function ResultBlock({
         </div>
       ) : null}
       {special ? (
-        <div className="rounded-3xl bg-amber-300 p-5 text-center text-zinc-950">
+        <div
+          className={`rounded-3xl p-5 text-center ${
+            special.role === "IMPOSTOR"
+              ? "bg-rose-600 text-white"
+              : "bg-amber-300 text-zinc-950"
+          }`}
+        >
           <p className="text-sm font-bold tracking-[0.2em] uppercase">{special.role}</p>
           <p className="mt-1 text-4xl font-black">{special.nickname}</p>
         </div>
